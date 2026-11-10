@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Root‑Locus Demo (G(s)=10/(s(s+2)))</title>
+</head>
+<body style="font-family:sans-serif; background:#fafafa; text-align:center;">
+<h3>Root‑Locus – Drag the slider to change gain K</h3>
+<div style="margin:10px;">
+    <label for="gain">K = </label>
+    <input type="range" id="gain" min="0" max="200" value="0" step="1"
+           style="width:400px;">
+    <span id="gainVal">0</span>
+</div>
+<canvas id="canvas" width="600" height="400"
+        style="border:1px solid #999; background:#fff;"></canvas>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const gainSlider = document.getElementById('gain');
+const gainVal = document.getElementById('gainVal');
+
+function toCanvas(x, y) {
+    const cx = 300 + x*40;
+    const cy = 200 - y*40;
+    return [cx, cy];
+}
+
+function draw() {
+    const K = parseFloat(gainSlider.value)/10;
+    gainVal.textContent = K.toFixed(1);
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    ctx.strokeStyle='#777';
+    ctx.beginPath();
+    ctx.moveTo(0,200); ctx.lineTo(600,200);
+    ctx.moveTo(300,0); ctx.lineTo(300,400);
+    ctx.stroke();
+
+    const poles = [{x:0, y:0}, {x:-2, y:0}];
+    ctx.fillStyle='red';
+    poles.forEach(p=>{
+        const [cx,cy]=toCanvas(p.x,p.y);
+        ctx.beginPath();
+        ctx.arc(cx,cy,5,0,Math.PI*2);
+        ctx.fill();
+    });
+
+    const discriminant = 4 - 40 * K;
+    let p1, p2;
+    if (discriminant >= 0) {
+        p1 = {x: (-2 + Math.sqrt(discriminant))/2, y: 0};
+        p2 = {x: (-2 - Math.sqrt(discriminant))/2, y: 0};
+    } else {
+        p1 = {x: -1, y: Math.sqrt(-discriminant)/2};
+        p2 = {x: -1, y: -Math.sqrt(-discriminant)/2};
+    }
+
+    ctx.fillStyle='blue';
+    [p1, p2].forEach(p=>{
+        const [cx,cy]=toCanvas(p.x,p.y);
+        ctx.beginPath();
+        ctx.arc(cx,cy,6,0,Math.PI*2);
+        ctx.fill();
+    });
+}
+gainSlider.addEventListener('input', draw);
+draw();
+</script>
+</body>
+</html>
