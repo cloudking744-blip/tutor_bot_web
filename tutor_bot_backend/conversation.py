@@ -3,7 +3,9 @@ from ollama import AsyncClient , Client
 from fastapi import APIRouter, Request
 router = APIRouter()
 
-client = AsyncClient(host = "http://localhost:11434")
+api_key = "b7ed6388e74641688a490d04609e53a5.qFoiRU9TWID2wL_mDCD-cJrN"
+client = AsyncClient(host = "https://ollama.com",
+                    headers={"Authorization": f"Bearer {api_key}"})
 
 
 def model_list():
