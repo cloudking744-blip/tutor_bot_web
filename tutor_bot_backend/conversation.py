@@ -3,7 +3,7 @@ from ollama import AsyncClient , Client
 from fastapi import APIRouter, Request
 router = APIRouter()
 
-api_key = "b7ed6388e74641688a490d04609e53a5.qFoiRU9TWID2wL_mDCD-cJrN"
+api_key = "5151d80fa5624159bbfbd89311b64f87.y1Q4KppyPQ0gUEQGMWC4Ebp4"
 client = AsyncClient(host = "https://ollama.com",
                     headers={"Authorization": f"Bearer {api_key}"})
 
