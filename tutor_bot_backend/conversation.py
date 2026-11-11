@@ -8,8 +8,8 @@ client = AsyncClient(host = "https://ollama.com",
                     headers={"Authorization": f"Bearer {api_key}"})
 
 
-def model_list():
-    models = ollama.list()
+async def model_list():
+    models = await client.list()
 
     models = [model.model for model in models.models]
 
@@ -178,6 +178,6 @@ async def chatbot(request: Request):
 
 @router.get("/model_list")
 async def models(request: Request):
-    model_lis = model_list()
+    model_lis = await model_list()
     print(f"{model_lis}")
     return model_lis
