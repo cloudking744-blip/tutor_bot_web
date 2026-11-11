@@ -173,7 +173,7 @@ async def chatbot(request: Request):
         return {"message":
             {
                 "role": "assistant",
-                "content":  e
+                "content":  f"Error: {e}"
             }}
 
 @router.get("/model_list")
